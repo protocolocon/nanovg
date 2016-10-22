@@ -17,7 +17,9 @@
 //
 
 #include <stdlib.h>
-#include <stdio.h>
+#ifndef NVG_NO_STDIO
+#  include <stdio.h>
+#endif
 #include <math.h>
 #include <memory.h>
 
@@ -2168,6 +2170,7 @@ void nvgCircle(NVGcontext* ctx, float cx, float cy, float r)
 	nvgEllipse(ctx, cx,cy, r,r);
 }
 
+#ifndef NVG_NO_STDIO
 void nvgDebugDumpPathCache(NVGcontext* ctx)
 {
 	const NVGpath* path;
@@ -2189,6 +2192,7 @@ void nvgDebugDumpPathCache(NVGcontext* ctx)
 		}
 	}
 }
+#endif
 
 void nvgFill(NVGcontext* ctx)
 {

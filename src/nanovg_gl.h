@@ -108,7 +108,9 @@ enum NVGimageFlagsGL {
 #ifdef NANOVG_GL_IMPLEMENTATION
 
 #include <stdlib.h>
-#include <stdio.h>
+#ifndef NVG_NO_STDIO
+#  include <stdio.h>
+#endif
 #include <string.h>
 #include <math.h>
 #include "nanovg.h"
@@ -369,6 +371,7 @@ static int glnvg__deleteTexture(GLNVGcontext* gl, int id)
 	return 0;
 }
 
+#ifndef NVG_NO_STDIO
 static void glnvg__dumpShaderError(GLuint shader, const char* name, const char* type)
 {
 	GLchar str[512+1];
@@ -399,6 +402,11 @@ static void glnvg__checkError(GLNVGcontext* gl, const char* str)
 		return;
 	}
 }
+#else
+static void glnvg__dumpShaderError(GLuint shader, const char* name, const char* type) { }
+static void glnvg__dumpProgramError(GLuint prog, const char* name) { }
+static void glnvg__checkError(GLNVGcontext* gl, const char* str) { }
+#endif
 
 static int glnvg__createShader(GLNVGshader* shader, const char* name, const char* header, const char* opts, const char* vshader, const char* fshader)
 {
@@ -695,12 +703,12 @@ static int glnvg__renderCreateTexture(void* uptr, int type, int w, int h, int im
 	if (glnvg__nearestPow2(w) != (unsigned int)w || glnvg__nearestPow2(h) != (unsigned int)h) {
 		// No repeat
 		if ((imageFlags & NVG_IMAGE_REPEATX) != 0 || (imageFlags & NVG_IMAGE_REPEATY) != 0) {
-			printf("Repeat X/Y is not supported for non power-of-two textures (%d x %d)\n", w, h);
+			//printf("Repeat X/Y is not supported for non power-of-two textures (%d x %d)\n", w, h);
 			imageFlags &= ~(NVG_IMAGE_REPEATX | NVG_IMAGE_REPEATY);
 		}
 		// No mips.
 		if (imageFlags & NVG_IMAGE_GENERATE_MIPMAPS) {
-			printf("Mip-maps is not support for non power-of-two textures (%d x %d)\n", w, h);
+			//printf("Mip-maps is not support for non power-of-two textures (%d x %d)\n", w, h);
 			imageFlags &= ~NVG_IMAGE_GENERATE_MIPMAPS;
 		}
 	}

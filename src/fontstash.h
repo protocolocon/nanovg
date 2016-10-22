@@ -870,6 +870,7 @@ error:
 	return FONS_INVALID;
 }
 
+#ifndef NVG_NO_STDIO
 int fonsAddFont(FONScontext* stash, const char* name, const char* path)
 {
 	FILE* fp = 0;
@@ -895,6 +896,7 @@ error:
 	if (fp) fclose(fp);
 	return FONS_INVALID;
 }
+#endif
 
 int fonsAddFontMem(FONScontext* stash, const char* name, unsigned char* data, int dataSize, int freeData)
 {
