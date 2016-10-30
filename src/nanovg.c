@@ -265,6 +265,8 @@ static NVGcompositeOperationState nvg__compositeOperationState(int op)
 		sfactor = NVG_ONE_MINUS_DST_ALPHA;
 		dfactor = NVG_ONE_MINUS_SRC_ALPHA;
 	}
+        else
+		sfactor = dfactor = 0;
 
 	NVGcompositeOperationState state;
 	state.srcRGB = sfactor;
@@ -463,7 +465,7 @@ NVGcolor nvgLerpRGBA(NVGcolor c0, NVGcolor c1, float u)
 {
 	int i;
 	float oneminu;
-	NVGcolor cint = {0};
+	NVGcolor cint = {{{ 0 }}};
 
 	u = nvg__clampf(u, 0.0f, 1.0f);
 	oneminu = 1.0f - u;
