@@ -2476,7 +2476,7 @@ float nvgText(NVGcontext* ctx, float x, float y, const char* string, const char*
 
 	nvg__renderText(ctx, verts, nverts);
 
-	return iter.x;
+	return iter.nextx; // return position after last character
 }
 
 void nvgTextBox(NVGcontext* ctx, float x, float y, float breakRowWidth, const char* string, const char* end)
